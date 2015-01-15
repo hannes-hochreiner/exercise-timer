@@ -1,0 +1,23 @@
+<div>
+  <h2 data-bind="text: profileName"></h2>
+  <div>
+    <div data-bind="foreach: steps">
+      <p><span data-bind="text: description"></span> (work <span data-bind="text: duration"></span> sec, rest <span data-bind="text: gap"></span> sec, repetitions <span data-bind="text: repetitions"></span>)</p>
+    </div>
+  </div>
+  <div>
+    <span data-bind="text: stepSecondsLeft"></span>
+    <span data-bind="text: phase"></span>
+    <span data-bind="text: phaseDescription"></span>
+    Step Repetitions: <span data-bind="text: stepRepetitionCntr"></span> / <span data-bind="text: stepRepetitionCnt"></span>
+    Set Repetitions: <span data-bind="text: setRepetitionCntr"></span> / <span data-bind="text: setRepetitionCnt"></span>
+  </div>
+  <div>
+    <!-- ko ifnot: running -->
+    <button data-bind="click: start">start</button>
+    <!-- /ko -->
+    <!-- ko if: running -->
+    <button data-bind="click: stop">stop</button>
+    <!-- /ko -->
+  </div>
+</div>
