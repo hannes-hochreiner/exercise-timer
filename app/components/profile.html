@@ -1,23 +1,51 @@
 <div>
   <h2 data-bind="text: profileName"></h2>
+  <!-- ko ifnot: running -->
   <div>
     <div data-bind="foreach: steps">
       <p><span data-bind="text: description"></span> (work <span data-bind="text: duration"></span> sec, rest <span data-bind="text: gap"></span> sec, repetitions <span data-bind="text: repetitions"></span>)</p>
     </div>
-  </div>
-  <div>
-    <span data-bind="text: stepSecondsLeft"></span>
-    <span data-bind="text: phase"></span>
-    <span data-bind="text: phaseDescription"></span>
-    Step Repetitions: <span data-bind="text: stepRepetitionCntr"></span> / <span data-bind="text: stepRepetitionCnt"></span>
-    Set Repetitions: <span data-bind="text: setRepetitionCntr"></span> / <span data-bind="text: setRepetitionCnt"></span>
-  </div>
-  <div>
-    <!-- ko ifnot: running -->
     <button data-bind="click: start">start</button>
-    <!-- /ko -->
-    <!-- ko if: running -->
-    <button data-bind="click: stop">stop</button>
-    <!-- /ko -->
   </div>
+  <!-- /ko -->
+  <!-- ko if: running -->
+  <div class="run">
+    <table class="repetitions">
+      <tr>
+        <td>
+          <h3>
+            Step Repetitions: <span data-bind="text: stepRepetitionCntr"></span> / <span data-bind="text: stepRepetitionCnt"></span>
+          </h3>
+        </td>
+        <td>
+          <h3>
+            Set Repetitions: <span data-bind="text: setRepetitionCntr"></span> / <span data-bind="text: setRepetitionCnt"></span>
+          </h3>
+        </td>
+      </tr>
+    </table>
+    <table class="main">
+      <tr>
+        <td>
+          <p class="countdown">
+            <span data-bind="text: stepSecondsLeft"></span> sec
+          </p>
+        </td>
+        <td>
+          <p class="description">
+            <!-- ko ifnot: phase() === 'Work' -->
+            <span data-bind="text: phase"></span>
+            <!-- /ko -->
+            <!-- ko if: phase() === 'Work' -->
+            <span data-bind="text: phaseDescription"></span>
+            <!-- /ko -->
+          </p>
+        </td>
+      </tr>
+    </table>
+    <p>
+      <button data-bind="click: stop">stop</button>
+    </p>
+  </div>
+  <!-- /ko -->
 </div>
