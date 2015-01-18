@@ -1,0 +1,26 @@
+{
+  "name": "ExerciseTimer",
+  "version": "0.0.1",
+  "description": "A timer for exercise routines.",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules/nodeunit/bin/nodeunit test",
+    "start": "node node_modules/js-dev-server/js-dev-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hannes-hochreiner/exercise-timer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hannes-hochreiner/exercise-timer/issues"
+  },
+  "author": "Hannes Hochreiner <hannes@hochreiner.net>",
+  "license": "MIT",
+  "dependencies": {
+    "amdefine": "~0.1.0",
+    "js-dev-server": "~0.1.1"
+  }
+}
