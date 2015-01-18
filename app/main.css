@@ -1,0 +1,109 @@
+@font-face {
+  font-family: "Oswald";
+  src: url("resources/Oswald/Oswald-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Oswald";
+  src: url("resources/Oswald/Oswald-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Oswald";
+  src: url("resources/Oswald/Oswald-Light.ttf") format("truetype");
+  font-weight: light;
+  font-style: normal;
+}
+
+body {
+  background: #ccc;
+  font-family: Oswald, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  padding: 0.5em;
+  background: #eee;
+  border-radius: 0.2em;
+}
+
+.run {
+  text-align: center;
+}
+
+.countdown {
+  font-size: 5em;
+  font-weight: bold;
+  text-shadow: 4px 4px 4px #aaa;
+  text-align: right;
+  padding: 0.5em 0.5em;
+  margin: 0;
+  border: 0;
+}
+
+.description {
+  font-size: 5em;
+  font-weight: bold;
+  text-shadow: 4px 4px 4px #aaa;
+  text-align: left;
+  padding: 0.5em 0.5em;
+  margin: 0;
+  border: 0;
+}
+
+button {
+  background: #eee;
+  padding: 0.5em;
+  border-radius: 0.2em;
+}
+
+.run table.repetitions {
+  width: 60%;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+}
+.run table.repetitions td {
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.run table.main {
+  background: #eee;
+  border-radius: 0.5em;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.run .main td {
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.footer {
+  margin: 1em;
+  font-size: 0.8em;
+}
+
+.footer a {
+  color: #000;
+}
+
+.footer a:active {
+  color: #000;
+}
+
+.footer a:visited {
+  color: #000;
+}
