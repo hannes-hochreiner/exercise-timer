@@ -6,9 +6,7 @@ module.exports = function(ko, repo, params) {
   that.signalWork = new Audio('app/resources/En-us-work.ogg');
   that.signalRest = new Audio('app/resources/En-us-rest.ogg');
   
-  that.setRepetitionCnt = ko.observable(2);
   that.setRepetitionCntr = ko.observable(1);
-  that.setRepetitionGap = 5;
   that.steps = ko.observableArray([{
     description: "Step 1",
     duration: 5,
@@ -36,6 +34,7 @@ module.exports = function(ko, repo, params) {
   
   that.start = function() {
     that.status('run');
+    that.setRepetitionCntr(1);
     initSet();
     
     that.interval = setInterval(function() {
@@ -65,10 +64,10 @@ module.exports = function(ko, repo, params) {
               that.stepRepetitionCnt(that.currProfile().steps[that.stepCntr].repetitions);
               that.stepRepetitionCntr(1);
             } else {
-              if (that.setRepetitionCntr() < that.setRepetitionCnt()) {
+              if (that.setRepetitionCntr() < that.currProfile().setRepetitionCount) {
                 that.phase('Gap');
                 that.setRepetitionCntr(that.setRepetitionCntr() + 1);
-                that.stepSecondsLeft(that.setRepetitionGap);
+                that.stepSecondsLeft(that.currProfile().setRepetitionGap);
               } else {
                 that.stop();
               }
