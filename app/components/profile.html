@@ -1,15 +1,42 @@
 <div>
-  <!-- ko ifnot: running -->
-  <h2 data-bind="text: profileName"></h2><button data-bind="click: createStart">create</button>
+  <!-- ko if: status() === 'view' -->
+  <select data-bind="options: profileTitles,
+                     optionsText: 'title',
+                     value: selectedProfileTitle,
+                     optionsCaption: 'Choose a profile...'"></select>
+  <button data-bind="click: profileCreate">create</button>
+  <button data-bind="click: profileEdit">edit</button>
+  <button data-bind="click: profileDelete">delete</button>
+  <!-- ko if: currProfile -->
+  <p>set repetitions: <span data-bind="text: currProfile().setRepetitionCount"></span></p>
+  <p>rest between sets: <span data-bind="text: currProfile().setRepetitionGap"></span></p>
   <div>
-    <div data-bind="foreach: steps">
+    <div data-bind="foreach: currProfile().steps">
       <p><span data-bind="text: description"></span> (work <span data-bind="text: duration"></span> sec, rest <span data-bind="text: gap"></span> sec, repetitions <span data-bind="text: repetitions"></span>)</p>
     </div>
     <button data-bind="click: start">start</button>
   </div>
   <!-- /ko -->
-  <!-- ko if: running -->
-  <h2 data-bind="text: profileName"></h2>
+  <!-- /ko -->
+  <!-- ko if: status() === 'edit' -->
+  <p>titel: </p><input type="text" data-bind="textInput: newProfile.title" placeholder="title"/>
+  <p>set repetitions: </p><input type="text" data-bind="textInput: newProfile.setRepetitionCount" placeholder="set repetitions"/>
+  <p>rest between gaps: </p><input type="text" data-bind="textInput: newProfile.setRepetitionGap" placeholder="rest between sets"/>
+  <button data-bind="click: profileEditAddStep">add step</button>
+  <div data-bind="foreach: newProfile.steps">
+    <p>
+      <input type="text" data-bind="textInput: description" placeholder="description"></input>
+      (work <input type="text" data-bind="textInput: duration" placeholder="duration"></input> sec,
+      rest <input type="text" data-bind="textInput: gap" placeholder="duration"></input> sec,
+      repetitions <input type="text" data-bind="textInput: repetitions" placeholder="repetitions"></input>)
+      <button data-bind="click: $parent.profileEditRemoveStep">remove</button>
+    </p>
+  </div>
+  <button data-bind="click: profileEditCancel">cancel</button>
+  <button data-bind="click: profileEditSave">save</button>
+  <!-- /ko -->
+  <!-- ko if: status() === 'run' -->
+  <h2 data-bind="text: currProfile().title"></h2>
   <div class="run">
     <table class="repetitions">
       <tr>
