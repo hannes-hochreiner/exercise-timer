@@ -86,7 +86,7 @@ module.exports = function(ko, repo, params) {
   });
   
   that.profileCreate = function() {
-    that.newProfile = {};
+    that.newProfile = { steps: ko.observableArray([]) };
     that.status('edit');
   };
   
