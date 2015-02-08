@@ -107,3 +107,86 @@ button {
 .footer a:visited {
   color: #000;
 }
+
+button.action {
+  width: 2em;
+  height: 2em;
+  border: 0;
+  background-size: 2em;
+  background-color: #aaa;
+}
+
+button.action:hover {
+  background-color: #fff;
+}
+
+
+button.action-create {
+  background-image: url('resources/icons/light/ic_action_new.png');
+  background-repeat: no-repeat;
+}
+
+button.action-create:hover {
+  background-image: url('resources/icons/dark/ic_action_new.png');
+  background-repeat: no-repeat;
+}
+
+button.action-edit {
+  background-image: url('resources/icons/light/ic_action_edit.png');
+  background-repeat: no-repeat;
+}
+
+button.action-edit:hover {
+  background-image: url('resources/icons/dark/ic_action_edit.png');
+  background-repeat: no-repeat;
+}
+
+button.action-delete {
+  background-image: url('resources/icons/light/ic_action_discard.png');
+  background-repeat: no-repeat;
+}
+
+button.action-delete:hover {
+  background-image: url('resources/icons/dark/ic_action_discard.png');
+  background-repeat: no-repeat;
+}
+
+button.action-accept {
+  background-image: url('resources/icons/light/ic_action_accept.png');
+  background-repeat: no-repeat;
+}
+
+button.action-accept:hover {
+  background-image: url('resources/icons/dark/ic_action_accept.png');
+  background-repeat: no-repeat;
+}
+
+button.action-cancel {
+  background-image: url('resources/icons/light/ic_action_cancel.png');
+  background-repeat: no-repeat;
+}
+
+button.action-cancel:hover {
+  background-image: url('resources/icons/dark/ic_action_cancel.png');
+  background-repeat: no-repeat;
+}
+
+button.action-play {
+  background-image: url('resources/icons/light/ic_action_play.png');
+  background-repeat: no-repeat;
+}
+
+button.action-play:hover {
+  background-image: url('resources/icons/dark/ic_action_play.png');
+  background-repeat: no-repeat;
+}
+
+button.action-stop {
+  background-image: url('resources/icons/light/ic_action_stop.png');
+  background-repeat: no-repeat;
+}
+
+button.action-stop:hover {
+  background-image: url('resources/icons/dark/ic_action_stop.png');
+  background-repeat: no-repeat;
+}

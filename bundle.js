@@ -8,23 +8,6 @@ module.exports = function(ko, repo, params) {
   that.signalRest = new Audio('app/resources/En-us-rest.ogg');
   
   that.setRepetitionCntr = ko.observable(1);
-  that.steps = ko.observableArray([{
-    description: "Step 1",
-    duration: 5,
-    gap: 2,
-    repetitions: 1
-  }, {
-    description: "Step 2",
-    duration: 3,
-    gap: 2,
-    repetitions: 2
-  }, {
-    description: "Step 3",
-    duration: 2,
-    gap: 2,
-    repetitions: 4
-  }]);
-  
   that.stepCntr = 0;
   that.stepSecondsLeft = ko.observable(0);
   that.interval = null;
@@ -108,12 +91,20 @@ module.exports = function(ko, repo, params) {
   };
   
   that.profileDelete = function() {
+    if (!that.currProfile()) {
+      return;
+    }
+    
     repo.deleteProfile(that.currProfile()).then(function(res) {
       updateProfileList();
     }).done();
   };
   
   that.profileEdit = function() {
+    if (!that.currProfile()) {
+      return;
+    }
+    
     that.newProfile = JSON.parse(JSON.stringify(that.currProfile()));
     that.newProfile.steps = ko.observableArray(that.newProfile.steps);
     that.status('edit');
@@ -205,7 +196,7 @@ var Q = require('q');
 
 ko.components.register('profile', {
   viewModel: require('./components/profile.vm').bind(null, ko, new Repo(new PouchDb('exercise-timer'), Q)),
-  template: "<div>\n  <!-- ko if: status() === 'view' -->\n  <select data-bind=\"options: profileTitles,\n                     optionsText: 'title',\n                     value: selectedProfileTitle,\n                     optionsCaption: 'Choose a profile...'\"></select>\n  <button data-bind=\"click: profileCreate\">create</button>\n  <button data-bind=\"click: profileEdit\">edit</button>\n  <button data-bind=\"click: profileDelete\">delete</button>\n  <!-- ko if: currProfile -->\n  <p>set repetitions: <span data-bind=\"text: currProfile().setRepetitionCount\"></span></p>\n  <p>rest between sets: <span data-bind=\"text: currProfile().setRepetitionGap\"></span></p>\n  <div>\n    <div data-bind=\"foreach: currProfile().steps\">\n      <p><span data-bind=\"text: description\"></span> (work <span data-bind=\"text: duration\"></span> sec, rest <span data-bind=\"text: gap\"></span> sec, repetitions <span data-bind=\"text: repetitions\"></span>)</p>\n    </div>\n    <button data-bind=\"click: start\">start</button>\n  </div>\n  <!-- /ko -->\n  <!-- /ko -->\n  <!-- ko if: status() === 'edit' -->\n  <p>titel: </p><input type=\"text\" data-bind=\"textInput: newProfile.title\" placeholder=\"title\"/>\n  <p>set repetitions: </p><input type=\"text\" data-bind=\"textInput: newProfile.setRepetitionCount\" placeholder=\"set repetitions\"/>\n  <p>rest between gaps: </p><input type=\"text\" data-bind=\"textInput: newProfile.setRepetitionGap\" placeholder=\"rest between sets\"/>\n  <button data-bind=\"click: profileEditAddStep\">add step</button>\n  <div data-bind=\"foreach: newProfile.steps\">\n    <p>\n      <input type=\"text\" data-bind=\"textInput: description\" placeholder=\"description\"></input>\n      (work <input type=\"text\" data-bind=\"textInput: duration\" placeholder=\"duration\"></input> sec,\n      rest <input type=\"text\" data-bind=\"textInput: gap\" placeholder=\"duration\"></input> sec,\n      repetitions <input type=\"text\" data-bind=\"textInput: repetitions\" placeholder=\"repetitions\"></input>)\n      <button data-bind=\"click: $parent.profileEditRemoveStep\">remove</button>\n    </p>\n  </div>\n  <button data-bind=\"click: profileEditCancel\">cancel</button>\n  <button data-bind=\"click: profileEditSave\">save</button>\n  <!-- /ko -->\n  <!-- ko if: status() === 'run' -->\n  <h2 data-bind=\"text: currProfile().title\"></h2>\n  <div class=\"run\">\n    <table class=\"repetitions\">\n      <tr>\n        <td>\n          <h3>\n            Step Repetitions: <span data-bind=\"text: stepRepetitionCntr\"></span> / <span data-bind=\"text: stepRepetitionCnt\"></span>\n          </h3>\n        </td>\n        <td>\n          <h3>\n            Set Repetitions: <span data-bind=\"text: setRepetitionCntr\"></span> / <span data-bind=\"text: currProfile().setRepetitionCount\"></span>\n          </h3>\n        </td>\n      </tr>\n    </table>\n    <table class=\"main\">\n      <tr>\n        <td>\n          <p class=\"countdown\">\n            <span data-bind=\"text: stepSecondsLeft\"></span> sec\n          </p>\n        </td>\n        <td>\n          <p class=\"description\">\n            <!-- ko ifnot: phase() === 'Work' -->\n            <span data-bind=\"text: phase\"></span>\n            <!-- /ko -->\n            <!-- ko if: phase() === 'Work' -->\n            <span data-bind=\"text: phaseDescription\"></span>\n            <!-- /ko -->\n          </p>\n        </td>\n      </tr>\n    </table>\n    <p>\n      <button data-bind=\"click: stop\">stop</button>\n    </p>\n  </div>\n  <!-- /ko -->\n</div>\n"
+  template: "<div>\n  <!-- ko if: status() === 'view' -->\n  <select data-bind=\"options: profileTitles,\n                     optionsText: 'title',\n                     value: selectedProfileTitle,\n                     optionsCaption: 'Choose a set...'\"></select>\n  <button class=\"action action-create\" data-bind=\"click: profileCreate\" title=\"create new set\"></button>\n  <button class=\"action action-edit\" data-bind=\"click: profileEdit\" title=\"edit set\"></button>\n  <button class=\"action action-delete\" data-bind=\"click: profileDelete\" title=\"delete set\"></button>\n  <!-- ko if: currProfile -->\n  <p>set repetitions: <span data-bind=\"text: currProfile().setRepetitionCount\"></span></p>\n  <p>rest between sets: <span data-bind=\"text: currProfile().setRepetitionGap\"></span></p>\n  <div>\n    <div data-bind=\"foreach: currProfile().steps\">\n      <p><span data-bind=\"text: description\"></span> (work <span data-bind=\"text: duration\"></span> sec, rest <span data-bind=\"text: gap\"></span> sec, repetitions <span data-bind=\"text: repetitions\"></span>)</p>\n    </div>\n    <button class=\"action action-play\" data-bind=\"click: start\" title=\"start\"></button>\n  </div>\n  <!-- /ko -->\n  <!-- /ko -->\n  <!-- ko if: status() === 'edit' -->\n  <p>titel: </p><input type=\"text\" data-bind=\"textInput: newProfile.title\" placeholder=\"title\"/>\n  <p>set repetitions: </p><input type=\"text\" data-bind=\"textInput: newProfile.setRepetitionCount\" placeholder=\"set repetitions\"/>\n  <p>rest between gaps: </p><input type=\"text\" data-bind=\"textInput: newProfile.setRepetitionGap\" placeholder=\"rest between sets\"/>\n  <button class=\"action action-create\" data-bind=\"click: profileEditAddStep\" title=\"add step\"></button>\n  <div data-bind=\"foreach: newProfile.steps\">\n    <p>\n      <input type=\"text\" data-bind=\"textInput: description\" placeholder=\"description\"></input>\n      (work <input type=\"text\" data-bind=\"textInput: duration\" placeholder=\"duration\"></input> sec,\n      rest <input type=\"text\" data-bind=\"textInput: gap\" placeholder=\"duration\"></input> sec,\n      repetitions <input type=\"text\" data-bind=\"textInput: repetitions\" placeholder=\"repetitions\"></input>)\n      <button class=\"action action-delete\" data-bind=\"click: $parent.profileEditRemoveStep\" title=\"remove step\"></button>\n    </p>\n  </div>\n  <button class=\"action action-cancel\" data-bind=\"click: profileEditCancel\" title=\"cancel\"></button>\n  <button class=\"action action-accept\" data-bind=\"click: profileEditSave\" title=\"save\"></button>\n  <!-- /ko -->\n  <!-- ko if: status() === 'run' -->\n  <h2 data-bind=\"text: currProfile().title\"></h2>\n  <div class=\"run\">\n    <table class=\"repetitions\">\n      <tr>\n        <td>\n          <h3>\n            Step Repetitions: <span data-bind=\"text: stepRepetitionCntr\"></span> / <span data-bind=\"text: stepRepetitionCnt\"></span>\n          </h3>\n        </td>\n        <td>\n          <h3>\n            Set Repetitions: <span data-bind=\"text: setRepetitionCntr\"></span> / <span data-bind=\"text: currProfile().setRepetitionCount\"></span>\n          </h3>\n        </td>\n      </tr>\n    </table>\n    <table class=\"main\">\n      <tr>\n        <td>\n          <p class=\"countdown\">\n            <span data-bind=\"text: stepSecondsLeft\"></span> sec\n          </p>\n        </td>\n        <td>\n          <p class=\"description\">\n            <!-- ko ifnot: phase() === 'Work' -->\n            <span data-bind=\"text: phase\"></span>\n            <!-- /ko -->\n            <!-- ko if: phase() === 'Work' -->\n            <span data-bind=\"text: phaseDescription\"></span>\n            <!-- /ko -->\n          </p>\n        </td>\n      </tr>\n    </table>\n    <p>\n      <button class=\"action action-stop\" data-bind=\"click: stop\" title=\"stop\"></button>\n    </p>\n  </div>\n  <!-- /ko -->\n</div>\n"
 });
 
 ko.applyBindings();

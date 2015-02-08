@@ -7,23 +7,6 @@ module.exports = function(ko, repo, params) {
   that.signalRest = new Audio('app/resources/En-us-rest.ogg');
   
   that.setRepetitionCntr = ko.observable(1);
-  that.steps = ko.observableArray([{
-    description: "Step 1",
-    duration: 5,
-    gap: 2,
-    repetitions: 1
-  }, {
-    description: "Step 2",
-    duration: 3,
-    gap: 2,
-    repetitions: 2
-  }, {
-    description: "Step 3",
-    duration: 2,
-    gap: 2,
-    repetitions: 4
-  }]);
-  
   that.stepCntr = 0;
   that.stepSecondsLeft = ko.observable(0);
   that.interval = null;
@@ -107,12 +90,20 @@ module.exports = function(ko, repo, params) {
   };
   
   that.profileDelete = function() {
+    if (!that.currProfile()) {
+      return;
+    }
+    
     repo.deleteProfile(that.currProfile()).then(function(res) {
       updateProfileList();
     }).done();
   };
   
   that.profileEdit = function() {
+    if (!that.currProfile()) {
+      return;
+    }
+    
     that.newProfile = JSON.parse(JSON.stringify(that.currProfile()));
     that.newProfile.steps = ko.observableArray(that.newProfile.steps);
     that.status('edit');
