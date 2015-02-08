@@ -150,8 +150,41 @@ module.exports = function(ko, repo, params) {
   };
   
   that.profileEditRemoveStep = function(step) {
-    console.log(step);
     that.newProfile.steps.remove(step);
+  };
+  
+  that.profileEditRaiseStep = function(step) {
+    if (!step) {
+      return;
+    }
+    
+    var idx = that.newProfile.steps().indexOf(step);
+    
+    console.log('raise ' + idx);
+    
+    if (idx === 0) {
+      return;
+    }
+    
+    that.newProfile.steps.splice(idx, 1);
+    that.newProfile.steps.splice(idx - 1, 0, step);
+  };
+  
+  that.profileEditLowerStep = function(step) {
+    if (!step) {
+      return;
+    }
+    
+    var idx = that.newProfile.steps().indexOf(step);
+
+    console.log('lower ' + idx);
+    
+    if (idx === that.newProfile.steps().length - 1) {
+      return;
+    }
+    
+    that.newProfile.steps.splice(idx, 1);
+    that.newProfile.steps.splice(idx + 1, 0, step);
   };
   
   function updateProfileList(id) {

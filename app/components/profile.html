@@ -5,8 +5,10 @@
                      value: selectedProfileTitle,
                      optionsCaption: 'Choose a set...'"></select>
   <button class="action action-create" data-bind="click: profileCreate" title="create new set"></button>
+  <!-- ko if: currProfile -->
   <button class="action action-edit" data-bind="click: profileEdit" title="edit set"></button>
   <button class="action action-delete" data-bind="click: profileDelete" title="delete set"></button>
+  <!-- /ko -->
   <!-- ko if: currProfile -->
   <p>set repetitions: <span data-bind="text: currProfile().setRepetitionCount"></span></p>
   <p>rest between sets: <span data-bind="text: currProfile().setRepetitionGap"></span></p>
@@ -29,6 +31,12 @@
       (work <input type="text" data-bind="textInput: duration" placeholder="duration"></input> sec,
       rest <input type="text" data-bind="textInput: gap" placeholder="duration"></input> sec,
       repetitions <input type="text" data-bind="textInput: repetitions" placeholder="repetitions"></input>)
+      <!-- ko if: $index() !== 0 -->
+      <button class="action action-raise" data-bind="click: $parent.profileEditRaiseStep" title="raise step"></button>
+      <!-- /ko -->
+      <!-- ko if: $index() !== $parent.newProfile.steps().length - 1 -->
+      <button class="action action-lower" data-bind="click: $parent.profileEditLowerStep" title="lower step"></button>
+      <!-- /ko -->
       <button class="action action-delete" data-bind="click: $parent.profileEditRemoveStep" title="remove step"></button>
     </p>
   </div>
