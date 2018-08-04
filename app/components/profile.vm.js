@@ -3,8 +3,8 @@ module.exports = function(ko, repo, params) {
   
   that.status = ko.observable('view');
   
-  that.signalWork = new Audio('app/resources/En-us-work.ogg');
-  that.signalRest = new Audio('app/resources/En-us-rest.ogg');
+  that.signalWork = new Audio('resources/En-us-work.ogg');
+  that.signalRest = new Audio('resources/En-us-rest.ogg');
   
   that.setRepetitionCntr = ko.observable(1);
   that.stepCntr = 0;
